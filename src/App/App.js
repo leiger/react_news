@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import Header from './Header/Header';
+import Pc from './Pc/Pc';
+import Mobile from './Mobile/Mobile';
+import MediaQuery from 'react-responsive';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header></Header>
+        <MediaQuery query='(min-device-width: 1224px)'>
+          <Pc/>
+        </MediaQuery>
+        <MediaQuery query='(max-device-width: 1224px)'>
+          <Mobile/>
+        </MediaQuery>
       </div>
     );
   }
