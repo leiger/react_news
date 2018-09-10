@@ -33,6 +33,27 @@ class PcHeader extends Component {
     })
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    let myFetchOptions = {
+      method: 'GET'
+    };
+    let formData = this.props.form.getFieldsValue();
+    console.log(formData);
+
+    fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=${this.state.action}&username=${formData.username}&password=${formData.password}&r_userName=${formData.r_username}&r_password=${formData.r_password}&r_confirmPassword=${formData.r_confirmPassword}`, myFetchOptions)
+      .then(response => response.json())
+      .then(json => {
+        this.setState({
+          userNickName: json.NickUserName,
+          userid: json.UserId
+        })
+      });
+
+    message.success('success!');
+    this.setModalVisible(false)
+  }
+
   render() {
     let {getFieldDecorator} = this.props.form;
     let userShow = this.state.hasLogined
@@ -76,20 +97,67 @@ class PcHeader extends Component {
               <Menu.Item key="Science">
                 <Icon type="appstore"/>Science
               </Menu.Item>
-              {userShow}
+              <Menu.Item key="userInfo">
+                {userShow}
+              </Menu.Item>
             </Menu>
           </Col>
         </Row>
 
         {/*modal*/}
-        <Modal title="register/login" wrapClassName="vertical-center-modal" visible={this.state.modalVisible}
-               onOk={() => this.setModalVisible(false)} onCancel={() => this.setModalVisible(false)}>
+        <Modal title="register/login" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} footer={null} onCancel={() => this.setModalVisible(false)}>
           <Tabs defaultActiveKey="login">
+            {/*login form*/}
             <TabPane tab="login" key="login">
-              tabpane1
+              <Form onSubmit={this.handleSubmit.bind(this)}>
+                <FormItem>
+                  {getFieldDecorator('userName', {
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                  })(
+                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('password', {
+                    rules: [{ required: true, message: 'Please input your Password!' }],
+                  })(
+                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                  )}
+                </FormItem>
+                <Button type="primary" htmlType="submit">
+                  login
+                </Button>
+              </Form>
             </TabPane>
+
+            {/*register form*/}
             <TabPane tab="register" key="register">
-              tabpane2
+              <Form onSubmit={this.handleSubmit.bind(this)}>
+                <FormItem>
+                  {getFieldDecorator('r_userName', {
+                    rules: [{ required: true, message: 'Please input your username!' }],
+                  })(
+                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('r_password', {
+                    rules: [{ required: true, message: 'Please input your Password!' }],
+                  })(
+                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('r_confirmPassword', {
+                    rules: [{ required: true, message: 'Please input your Password again!' }],
+                  })(
+                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password again" />
+                  )}
+                </FormItem>
+                <Button type="primary" htmlType="submit">
+                  register
+                </Button>
+              </Form>
             </TabPane>
           </Tabs>
         </Modal>
