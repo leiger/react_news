@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Menu, Icon, Form, Tabs, Modal, message, Input, Button} from 'antd';
+import {Layout, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
 import './PcHeader.css';
 
 const {Header} = Layout;
@@ -32,9 +32,9 @@ class PcHeader extends Component {
     }
   }
 
-  setSection = (e) => {
+  setSection(e) {
     this.setState({
-      section: e.key
+      selectedSection: e.key
     })
   };
 
@@ -114,6 +114,7 @@ class PcHeader extends Component {
       ?
       <span className="userInfo">
         <span>{this.state.userNickName}</span>
+        <Divider type="vertical"/>
         <Button type="dashed" shape="circle" icon="logout" onClick={this.logout.bind(this)}/>
       </span>
       :
@@ -131,7 +132,7 @@ class PcHeader extends Component {
         </a>
 
         {/*menu*/}
-        <Menu id="menu" mode="horizontal" selectedKeys={[this.state.selectedSection]}>
+        <Menu id="menu" mode="horizontal" onClick={this.setSection.bind(this)} selectedKeys={[this.state.selectedSection]}>
           {this.state.sections.map((item, index) => {
             return (
               <Menu.Item key={index}> {item} </Menu.Item>

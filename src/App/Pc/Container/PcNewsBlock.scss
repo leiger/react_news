@@ -1,0 +1,10 @@
+.newsList {
+  .newsTitle{
+    .ant-list-item-content{
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
