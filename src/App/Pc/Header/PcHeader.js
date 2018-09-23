@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {Row, Col, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Checkbox} from 'antd';
-import Logo from '../../images/logo.png';
+import {Layout, Menu, Icon, Form, Tabs, Modal, message, Input, Button} from 'antd';
 import './PcHeader.css';
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+const {Header} = Layout;
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
@@ -12,13 +10,26 @@ class PcHeader extends Component {
   constructor() {
     super();
     this.state = {
-      section: 'World',
+      sections: ['World', 'Local', 'Technology', 'Entertainment', 'Sports', 'Science'],
+      selectedSection: '0',
+
       modalVisible: false,
       action: 'login',
+
       hasLogined: false,
       userNickName: 'none',
       userId: 0,
     };
+  }
+
+  componentWillMount() {
+    if (localStorage.userId !== '') {
+      this.setState({
+        hasLogined: true,
+        userNickName: localStorage.userNickName,
+        userId: localStorage.userId
+      })
+    }
   }
 
   setSection = (e) => {
@@ -31,6 +42,31 @@ class PcHeader extends Component {
     this.setState({
       modalVisible: val
     })
+  };
+
+  setAction(key) {
+    this.setState({
+      action: key === 'login' ? 'login' : 'register'
+    })
+  }
+
+  logout() {
+    let self = this;
+    Modal.confirm({
+      title: 'Confirm',
+      content: 'Are you sure to log out?',
+      okText: 'OK',
+      cancelText: 'CANCEL',
+      onOk() {
+        localStorage.userId = '';
+        localStorage.userNickName = '';
+        self.setState({
+          hasLogined: false
+        });
+        message.success('success!');
+      }
+    });
+
   }
 
   handleSubmit(e) {
@@ -41,120 +77,132 @@ class PcHeader extends Component {
     let formData = this.props.form.getFieldsValue();
     console.log(formData);
 
-    fetch(`http://newsapi.gugujiankong.com/Handler.ashx?action=${this.state.action}&username=${formData.username}&password=${formData.password}&r_userName=${formData.r_username}&r_password=${formData.r_password}&r_confirmPassword=${formData.r_confirmPassword}`, myFetchOptions)
-      .then(response => response.json())
+    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action
+      + "&username=" + formData.username + "&password=" + formData.password
+      + "&r_userName=" + formData.r_username + "&r_password="
+      + formData.r_password + "&r_confirmPassword="
+      + formData.r_confirmPassword, myFetchOptions)
+      .then(res => res.json())
       .then(json => {
+        console.log(json);
         this.setState({
           userNickName: json.NickUserName,
           userid: json.UserId
-        })
+        });
+        localStorage.userId = json.UserId;
+        localStorage.userNickName = json.NickUserName;
+        this.setModalVisible(false);
+        message.success('success!');
+      })
+      .catch(error => {
+        console.error(error);
+        message.error('error');
       });
 
-    message.success('success!');
-    this.setModalVisible(false)
+
+    this.setState({
+      hasLogined: true
+    });
   }
 
   render() {
+
     let {getFieldDecorator} = this.props.form;
+
+    // log in or not
     let userShow = this.state.hasLogined
       ?
-      <span>
-        <Button>{this.state.userNickName}</Button>
-        <Button type="ghoast">logout</Button>
+      <span className="userInfo">
+        <span>{this.state.userNickName}</span>
+        <Button type="dashed" shape="circle" icon="logout" onClick={this.logout.bind(this)}/>
       </span>
       :
-      <Button onClick={() => this.setModalVisible(true)}>
-        register/login
-      </Button>
+      <span className="userInfo">
+        <Button type="dashed" shape="circle" icon="login" onClick={() => this.setModalVisible(true)}/>
+      </span>
     ;
 
     return (
-      <header>
-        <Row>
-          <Col span={4} offset={2}>
-            <a href="/" className="logo">
-              <img src={Logo} alt="logo"/>
-              <h1>ReactNews</h1>
-            </a>
-          </Col>
-          <Col span={16}>
-            <Menu mode="horizontal" selectedKeys={[this.state.section]} onClick={this.setSection}>
-              <Menu.Item key="World">
-                <Icon type="appstore"/>World
-              </Menu.Item>
-              <Menu.Item key="Local">
-                <Icon type="appstore"/>Local
-              </Menu.Item>
-              <Menu.Item key="Technology">
-                <Icon type="appstore"/>Technology
-              </Menu.Item>
-              <Menu.Item key="Entertainment">
-                <Icon type="appstore"/>Entertainment
-              </Menu.Item>
-              <Menu.Item key="Sports">
-                <Icon type="appstore"/>Sports
-              </Menu.Item>
-              <Menu.Item key="Science">
-                <Icon type="appstore"/>Science
-              </Menu.Item>
-              <Menu.Item key="userInfo">
-                {userShow}
-              </Menu.Item>
-            </Menu>
-          </Col>
-        </Row>
+      <Header className="header">
+
+        {/*logo*/}
+        <a href="/" className="logo">
+          <h1>ReactNews</h1>
+        </a>
+
+        {/*menu*/}
+        <Menu id="menu" mode="horizontal" selectedKeys={[this.state.selectedSection]}>
+          {this.state.sections.map((item, index) => {
+            return (
+              <Menu.Item key={index}> {item} </Menu.Item>
+            )
+          })}
+        </Menu>
+
+        {/*userInfo*/}
+        {userShow}
 
         {/*modal*/}
-        <Modal title="register/login" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} footer={null} onCancel={() => this.setModalVisible(false)}>
-          <Tabs defaultActiveKey="login">
+        <Modal
+          className="modal"
+          title={null}
+          wrapClassName="vertical-center-modal"
+          visible={this.state.modalVisible}
+          footer={null}
+          onCancel={() => this.setModalVisible(false)}
+        >
+          <Tabs defaultActiveKey="login" onChange={this.setAction.bind(this)}>
             {/*login form*/}
-            <TabPane tab="login" key="login">
+            <TabPane tab="LOGIN" key="login">
               <Form onSubmit={this.handleSubmit.bind(this)}>
                 <FormItem>
-                  {getFieldDecorator('userName', {
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                  {getFieldDecorator('username', {
+                    rules: [{required: true, message: 'Please input your username!'}],
                   })(
-                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                    <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
                   )}
                 </FormItem>
                 <FormItem>
                   {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
+                    rules: [{required: true, message: 'Please input your Password!'}],
                   })(
-                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                           placeholder="Password"/>
                   )}
                 </FormItem>
-                <Button type="primary" htmlType="submit">
+                <Button className="confirmButton" type="primary" ghost htmlType="submit">
                   login
                 </Button>
               </Form>
             </TabPane>
 
             {/*register form*/}
-            <TabPane tab="register" key="register">
+            <TabPane tab="REGISTER" key="register">
               <Form onSubmit={this.handleSubmit.bind(this)}>
                 <FormItem>
-                  {getFieldDecorator('r_userName', {
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                  {getFieldDecorator('r_username', {
+                    rules: [{required: true, message: 'Please input your username!'}],
                   })(
-                    <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                    <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
                   )}
                 </FormItem>
                 <FormItem>
                   {getFieldDecorator('r_password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
+                    rules: [{required: true, message: 'Please input your Password!'}],
                   })(
-                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                           placeholder="Password"/>
                   )}
                 </FormItem>
                 <FormItem>
                   {getFieldDecorator('r_confirmPassword', {
-                    rules: [{ required: true, message: 'Please input your Password again!' }],
+                    rules: [{required: true, message: 'Please input your Password again!'}],
                   })(
-                    <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password again" />
+                    <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                           placeholder="Password again"/>
                   )}
                 </FormItem>
-                <Button type="primary" htmlType="submit">
+                <Button className="confirmButton" type="primary" htmlType="submit">
                   register
                 </Button>
               </Form>
@@ -162,7 +210,7 @@ class PcHeader extends Component {
           </Tabs>
         </Modal>
 
-      </header>
+      </Header>
     )
   }
 }

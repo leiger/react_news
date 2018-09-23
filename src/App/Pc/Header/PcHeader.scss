@@ -1,14 +1,31 @@
-header {
+.header {
+  background-color: #fff !important;
+  border-bottom: 1px dashed #d9d9d9;
   .logo {
-    img {
-      width: 48px;
-      height: 48px;
-    }
+    height: 64px;
     h1 {
-      display: inline-block;
-      line-height: 48px;
-      font-size: 24px;
+      float: left;
+      line-height: 64px;
+      font-size: 18px;
       padding-left: 5px;
+      font-weight: 600;
     }
+  }
+  #menu {
+    float: left;
+    margin: 8px 0 8px 50px;
+    border-color: #fff;
+  }
+  .userInfo {
+    float: right;
+    button {
+      margin-left: 15px;
+    }
+  }
+}
+
+.modal {
+  .confirmButton {
+    float: right;
   }
 }
