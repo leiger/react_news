@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Row, Col, Carousel, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
 import './PcContainer.css';
-import PcNewsBlock from './PcNewsBlock';
-import PcNewsImageBlock from './PcNewsImageBlock';
+import PcNewsBlock from '../Components/PcNewsBlock';
+import PcNewsImageBlock from '../Components/PcNewsImageBlock';
 
 import carouselImg1 from './../../images/carousel_1.jpg';
 import carouselImg2 from './../../images/carousel_2.jpg';

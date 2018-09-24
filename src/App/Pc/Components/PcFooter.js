@@ -4,13 +4,11 @@ import {Row, Col} from 'antd';
 class PcFooter extends Component {
   render() {
     return (
-      <footer style={{textAlign: 'center'}}>
+      <footer style={{textAlign: 'center', margin: '10px 0', color: '#bfbfbf'}}>
         <Row>
-          <Col span={2}/>
-          <Col span={20}>
-            &copy;&nbsp;2018 ReactNews. All Rights Reserved.
+          <Col span={20} offset={2}>
+            &copy;&nbsp;leiger - 2018 ReactNews.&nbsp;&nbsp; All Rights Reserved.
           </Col>
-          <Col span={2}/>
         </Row>
       </footer>
     )

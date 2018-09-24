@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {Card, Col, Row, Skeleton, Divider} from 'antd';
 
 class PcNewsImageBlock extends Component {
@@ -11,10 +12,11 @@ class PcNewsImageBlock extends Component {
     }
   }
 
-  componentWillMount() {
+  init() {
     let myFetchOptions = {
       method: 'GET'
     };
+    this.state.loading = true;
     fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, myFetchOptions).then(response => response.json())
       .then(json => {
         this.setState({
@@ -25,6 +27,10 @@ class PcNewsImageBlock extends Component {
       .catch(error => {
         console.error(error);
       });
+  }
+
+  componentWillMount() {
+    this.init();
   }
 
   render() {
@@ -51,11 +57,13 @@ class PcNewsImageBlock extends Component {
             <Row gutter={8}>
               {this.state.news.map((item, index) => (
                 <Col key={index} span={this.props.colGrid} style={{marginBottom: '8px'}}>
-                  <div className="newImg">
-                    <img width="100%" src={item.thumbnail_pic_s} alt={item.title}/>
-                    <h3 style={titleStyle}>{item.title}</h3>
-                    <p style={resourceStyle}>{item.author_name}</p>
-                  </div>
+                  <Link to={`/details/${item.uniquekey}`}>
+                    <div className="newImg">
+                      <img width="100%" src={item.thumbnail_pic_s} alt={item.title}/>
+                      <h3 style={titleStyle}>{item.title}</h3>
+                      <p style={resourceStyle}>{item.author_name}</p>
+                    </div>
+                  </Link>
                 </Col>
               ))}
             </Row>

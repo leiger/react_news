@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {List, Skeleton } from 'antd';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import './PcNewsBlock.css';
+import {List, Skeleton} from 'antd';
+import {Link} from 'react-router-dom';
 
 class PcNewsBlock extends Component {
   constructor() {
@@ -30,24 +29,30 @@ class PcNewsBlock extends Component {
 
   render() {
     const {news} = this.state;
+    const linkStyle = {
+      display: 'block',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      color: '#8c8c8c'
+    };
 
     return (
-      <Router>
-        <div className="newsList">
-          <Skeleton loading={ this.state.loading } active paragraph={{ rows: 10 }}>
+      <div className="newsList">
+        <Skeleton loading={this.state.loading} active paragraph={{rows: 10}}>
           <List
             size="small"
             dataSource={news}
             renderItem={item => (
-              <List.Item className="newsTitle">
-
+              <List.Item style={{width: '100%'}}>
+                <Link to={`details/${item.uniquekey}`} style={linkStyle}>
                   {item.title}
+                </Link>
               </List.Item>
             )}
           />
-          </Skeleton>
-        </div>
-      </Router>
+        </Skeleton>
+      </div>
     )
   }
 }
