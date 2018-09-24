@@ -16,7 +16,10 @@ class PcNewsImageBlock extends Component {
     let myFetchOptions = {
       method: 'GET'
     };
-    this.state.loading = true;
+    this.setState({
+      loading: true
+    });
+
     fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, myFetchOptions).then(response => response.json())
       .then(json => {
         this.setState({

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Row, Col, Skeleton, BackTop} from 'antd';
+import {Row, Col, Skeleton, BackTop, Affix} from 'antd';
 import PcHeader from './../Components/PcHeader';
 import PcFooter from './../Components/PcFooter';
 import PcNewsImageBlock from './../Components/PcNewsImageBlock';
+import Comment from './../Components/Comment';
 
 class PcDetail extends Component {
   constructor() {
@@ -10,7 +11,7 @@ class PcDetail extends Component {
 
     this.state = {
       newsDetail: '',
-      loading: true
+      articleLoading: true
     };
   };
 
@@ -23,7 +24,9 @@ class PcDetail extends Component {
   }
 
   init() {
-    this.state.loading = true;
+    this.setState({
+      loading: true
+    });
     let myFetchOptions = {
       method: 'GET'
     };
@@ -32,7 +35,7 @@ class PcDetail extends Component {
       .then(json => {
         this.setState({
           newsDetail: json,
-          loading: false
+          articleLoading: false
         });
         document.title = `ReactNews- ${this.state.newsDetail.title}`;
       });
@@ -49,18 +52,22 @@ class PcDetail extends Component {
         <div className="container">
           <Row gutter={24}>
             <Col span={16}>
-              <Skeleton loading={this.state.loading} active paragraph={{rows: 15}}>
+              <Skeleton loading={this.state.articleLoading} active paragraph={{rows: 15}}>
                 <div className="articleContainer" dangerouslySetInnerHTML={this.createMarkup()}/>
               </Skeleton>
+
+              <Comment uniquekey={this.props.match.params.uniquekey} num={5} title="LATEST COMMENT"/>
             </Col>
             <Col span={8}>
-              <PcNewsImageBlock title="RELATED NEWS" count={12} colGrid={8} type="top"/>
+              <Affix offsetTop={15}>
+                <PcNewsImageBlock title="RELATED NEWS" count={12} colGrid={8} type="top"/>
+              </Affix>
             </Col>
           </Row>
         </div>
         <PcFooter/>
 
-        <BackTop />
+        <BackTop/>
       </div>
     )
   }

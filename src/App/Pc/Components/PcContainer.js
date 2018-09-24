@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Carousel, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
+import {Row, Col, Carousel, Tabs} from 'antd';
 import './PcContainer.css';
 import PcNewsBlock from '../Components/PcNewsBlock';
 import PcNewsImageBlock from '../Components/PcNewsImageBlock';
@@ -37,7 +37,7 @@ class PcContainer extends Component {
               <div className="carousel">
                 <Carousel {...settings}>
                   {this.state.carouselImgs.map((img, index) => {
-                    return (<div key={index}><img src={img}/></div>)
+                    return (<div key={index}><img src={img} alt={index}/></div>)
                   })}
                 </Carousel>
               </div>
@@ -51,7 +51,7 @@ class PcContainer extends Component {
               <TabPane tab="TOP NEWS" key="1">
                 <PcNewsBlock count={15} type="top" width="100%" bordered="false"/>
               </TabPane>
-              <TabPane tab="TOP NEWS" key="2">
+              <TabPane tab="INTERNATIONAL NEWS" key="2">
                 <PcNewsBlock count={15} type="guoji" width="100%" bordered="false"/>
               </TabPane>
             </Tabs>

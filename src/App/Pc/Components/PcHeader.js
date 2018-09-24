@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
+import {Layout, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
 import './PcHeader.css';
 
 const {Header} = Layout;
@@ -10,9 +10,6 @@ class PcHeader extends Component {
   constructor() {
     super();
     this.state = {
-      sections: ['World', 'Local', 'Technology', 'Entertainment', 'Sports', 'Science'],
-      selectedSection: '0',
-
       modalVisible: false,
       action: 'login',
 
@@ -31,12 +28,6 @@ class PcHeader extends Component {
       })
     }
   }
-
-  setSection(e) {
-    this.setState({
-      selectedSection: e.key
-    })
-  };
 
   setModalVisible(val) {
     this.setState({
@@ -130,15 +121,6 @@ class PcHeader extends Component {
         <a href="/" className="logo">
           <h1>ReactNews</h1>
         </a>
-
-        {/*menu*/}
-        <Menu id="menu" mode="horizontal" onClick={this.setSection.bind(this)} selectedKeys={[this.state.selectedSection]}>
-          {this.state.sections.map((item, index) => {
-            return (
-              <Menu.Item key={index}> {item} </Menu.Item>
-            )
-          })}
-        </Menu>
 
         {/*userInfo*/}
         {userShow}
