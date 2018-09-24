@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Row, Col, Carousel, Menu, Icon, Form, Tabs, Modal, message, Input, Button, Divider} from 'antd';
 import './PcContainer.css';
 import PcNewsBlock from './PcNewsBlock';
+import PcNewsImageBlock from './PcNewsImageBlock';
 
 import carouselImg1 from './../../images/carousel_1.jpg';
 import carouselImg2 from './../../images/carousel_2.jpg';
@@ -30,7 +31,7 @@ class PcContainer extends Component {
     return (
       <div className="container">
         <Row gutter={24}>
-          <Col span={6}>
+          <Col span={8}>
             {/*carousel*/}
             <div className="leftContainer">
               <div className="carousel">
@@ -41,6 +42,8 @@ class PcContainer extends Component {
                 </Carousel>
               </div>
             </div>
+
+            <PcNewsImageBlock title="SOCIETY NEWS" count={12} colGrid={6} type="yule"/>
           </Col>
           <Col span={8}>
             {/*tabs*/}
@@ -52,6 +55,11 @@ class PcContainer extends Component {
                 <PcNewsBlock count={15} type="guoji" width="100%" bordered="false"/>
               </TabPane>
             </Tabs>
+          </Col>
+
+          <Col span={8}>
+            <PcNewsImageBlock title="GLOBAL NEWS" count={9} colGrid={8} type="guonei"/>
+
           </Col>
         </Row>
       </div>
