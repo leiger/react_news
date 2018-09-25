@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import PcIndex from './Pc/Pages/PcIndex';
 import PcDetail from './Pc/Pages/PcDetail';
-import Mobile from './Mobile/Mobile';
+import MobileIndex from './Mobile/Pages/MobileIndex';
 import MediaQuery from 'react-responsive';
 
 class App extends Component {
@@ -19,7 +19,11 @@ class App extends Component {
 
         </MediaQuery>
         <MediaQuery query='(max-device-width: 1224px)'>
-          <Mobile/>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={MobileIndex}/>
+            </Switch>
+          </BrowserRouter>
         </MediaQuery>
       </div>
     );
