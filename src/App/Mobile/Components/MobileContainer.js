@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {WingBlank, WhiteSpace, Flex} from 'antd-mobile';
 import MobileCarousel from './MobileCarousel';
 import MobileImageBlock from './MobileImageBlock';
+import MobileListBlock from './MobileListBlock';
 
 import carouselImg1 from './../../images/carousel_1.jpg';
 import carouselImg2 from './../../images/carousel_2.jpg';
@@ -19,8 +20,9 @@ class MobileContainer extends Component {
   render() {
     return (
       <div>
-        {/*<MobileCarousel images={this.state.images}/>*/}
-        <MobileImageBlock title="GLOBAL NEWS" count={12} type="guonei"/>
+        <MobileCarousel images={this.state.images}/>
+        <MobileImageBlock title="GLOBAL NEWS" count={6} type="guonei"/>
+        <MobileListBlock title="GLOBAL NEWS" count={6} type="guonei"/>
       </div>
 
     )

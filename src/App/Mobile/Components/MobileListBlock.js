@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {ListView, Card, WingBlank, WhiteSpace, Flex} from 'antd-mobile';
 import {Link} from 'react-router-dom';
 
-class MobileImageBlock extends Component {
+class MobileListBlock extends Component {
   constructor() {
     super();
 
@@ -45,7 +45,6 @@ class MobileImageBlock extends Component {
     let resourceStyle = {
       fontSize: '14px',
       marginBottom: '0',
-      marginTop: '5px',
       color: 'rgba(0, 0, 0, 0.65)'
     };
     let timeStyle = {
@@ -56,23 +55,38 @@ class MobileImageBlock extends Component {
     };
 
     return (
-      <div>
+      <div style={{backgroundColor: '#fff', margin: '15px 0'}}>
         {this.state.news.map((item, index) => (
           <WingBlank key={index}>
             <WhiteSpace size="lg"/>
-            <Card>
-              <Card.Body>
-                <Link to={`/details/${item.uniquekey}`}>
 
-                  <div className="imgBox" style={{height: '160px', overflow: 'hidden', borderRadius: '6px'}}>
-                    <img width="100%" src={item.thumbnail_pic_s} alt={item.title}/>
-                  </div>
+            <Link to={`/details/${item.uniquekey}`}>
+              <div style={{display: 'flex', padding: '10px 0', borderBottom: '1px solid #ddd'}}>
+                <div className="imgBox"
+                     style={{flexGrow: 1}}>
+                  <img style={{height: '80px',borderRadius: '6px'}} src={item.thumbnail_pic_s} alt={item.title}/>
+                </div>
+                <div style={{marginLeft: '15px', flexGrow: 3}}>
                   <p style={resourceStyle}>{item.author_name}</p>
                   <h3 style={titleStyle}>{item.title}</h3>
                   <p style={timeStyle}>{item.date}</p>
-                </Link>
-              </Card.Body>
-            </Card>
+                </div>
+              </div>
+            </Link>
+
+            {/*<Card>*/}
+            {/*<Card.Body>*/}
+            {/*<Link to={`/details/${item.uniquekey}`}>*/}
+
+            {/*<div className="imgBox" style={{height: '160px', overflow: 'hidden', borderRadius: '6px'}}>*/}
+            {/*<img width="100%" src={item.thumbnail_pic_s} alt={item.title}/>*/}
+            {/*</div>*/}
+            {/*<p style={resourceStyle}>{item.author_name}</p>*/}
+            {/*<h3 style={titleStyle}>{item.title}</h3>*/}
+            {/*<p style={timeStyle}>{item.date}</p>*/}
+            {/*</Link>*/}
+            {/*</Card.Body>*/}
+            {/*</Card>*/}
           </WingBlank>
         ))}
       </div>
@@ -82,4 +96,4 @@ class MobileImageBlock extends Component {
   }
 }
 
-export default MobileImageBlock;
+export default MobileListBlock;
