@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import PcIndex from './Pc/Pages/PcIndex';
 import PcDetail from './Pc/Pages/PcDetail';
 import MobileIndex from './Mobile/Pages/MobileIndex';
+import MobileDetail from './Mobile/Pages/MobileDetail';
 import MediaQuery from 'react-responsive';
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={MobileIndex}/>
+              <Route path='/details/:uniquekey' component={MobileDetail}/>
             </Switch>
           </BrowserRouter>
         </MediaQuery>
