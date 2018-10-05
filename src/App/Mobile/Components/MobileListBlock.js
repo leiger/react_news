@@ -20,7 +20,7 @@ class MobileListBlock extends Component {
       loading: true
     });
 
-    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, myFetchOptions)
+    fetch("https://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" + this.props.type + "&count=" + this.props.count, myFetchOptions)
       .then(response => response.json())
       .then(json => {
         this.setState({

@@ -30,7 +30,7 @@ class PcDetail extends Component {
     let myFetchOptions = {
       method: 'GET'
     };
-    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=" + this.props.match.params.uniquekey, myFetchOptions)
+    fetch("https://newsapi.gugujiankong.com/Handler.ashx?action=getnewsitem&uniquekey=" + this.props.match.params.uniquekey, myFetchOptions)
       .then(res => res.json())
       .then(json => {
         this.setState({

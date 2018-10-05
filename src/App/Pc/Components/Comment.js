@@ -18,7 +18,7 @@ class Comment extends Component {
     let myFetchOptions = {
       method: 'GET'
     };
-    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getcomments&uniquekey=" + this.props.uniquekey, myFetchOptions)
+    fetch("https://newsapi.gugujiankong.com/Handler.ashx?action=getcomments&uniquekey=" + this.props.uniquekey, myFetchOptions)
       .then(response => response.json())
       .then(json => {
         this.setState({
@@ -37,7 +37,7 @@ class Comment extends Component {
       method: 'GET'
     };
     let formData = this.props.form.getFieldsValue();
-    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=comment&userid=" + localStorage.userId + "&uniquekey=" + this.props.uniquekey + "&commnet=" + formData.comment, myFetchOptions)
+    fetch("https://newsapi.gugujiankong.com/Handler.ashx?action=comment&userid=" + localStorage.userId + "&uniquekey=" + this.props.uniquekey + "&commnet=" + formData.comment, myFetchOptions)
       .then(response => response.json())
       .then(json => {
         this.componentDidMount();

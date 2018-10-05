@@ -68,7 +68,7 @@ class PcHeader extends Component {
     let formData = this.props.form.getFieldsValue();
     console.log(formData);
 
-    fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action
+    fetch("https://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action
       + "&username=" + formData.username + "&password=" + formData.password
       + "&r_userName=" + formData.r_username + "&r_password="
       + formData.r_password + "&r_confirmPassword="
